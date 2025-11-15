@@ -1,0 +1,83 @@
+========================================
+jsPsych 檔案下載說明（必須下載）
+========================================
+
+請按照以下步驟下載 jsPsych 檔案：
+
+步驟 1：下載 jspsych.js
+------------------------
+1. 開啟瀏覽器，訪問：
+   https://unpkg.com/jspsych@7.3.3/dist/jspsych.js
+
+2. 按 Ctrl+S 或右鍵 → 另存為
+
+3. 保存到：
+   experiment2-font-saturation\jspsych\jspsych.js
+
+步驟 2：下載 jspsych.css
+-------------------------
+1. 訪問：
+   https://unpkg.com/jspsych@7.3.3/css/jspsych.css
+
+2. 按 Ctrl+S 或右鍵 → 另存為
+
+3. 保存到：
+   experiment2-font-saturation\jspsych\css\jspsych.css
+
+步驟 3：下載 html-keyboard-response 外掛
+------------------------------------------
+1. 訪問：
+   https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js
+
+2. 按 Ctrl+S 或右鍵 → 另存為
+
+3. 保存到：
+   experiment2-font-saturation\jspsych\plugins\jspsych-html-keyboard-response.js
+
+步驟 4：下載 html-button-response 外掛
+---------------------------------------
+1. 訪問：
+   https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js
+
+2. 按 Ctrl+S 或右鍵 → 另存為
+
+3. 保存到：
+   experiment2-font-saturation\jspsych\plugins\jspsych-html-button-response.js
+
+步驟 5：驗證檔案結構
+---------------------
+下載完成後，確認檔案結構如下：
+
+experiment2-font-saturation/
+├── jspsych/
+│   ├── css/
+│   │   └── jspsych.css          ✓ 必須存在
+│   ├── plugins/
+│   │   ├── jspsych-html-keyboard-response.js  ✓ 必須存在
+│   │   └── jspsych-html-button-response.js    ✓ 必須存在
+│   └── jspsych.js               ✓ 必須存在
+├── index.html
+└── ...
+
+步驟 6：測試本地
+-----------------
+1. 雙擊 index.html 檔案
+2. 點擊「開始實驗」按鈕
+3. 確認可以正常運行
+
+步驟 7：推送到 GitHub
+-----------------------
+下載完成並測試成功後，執行：
+
+cd C:\Users\Lucas\Favorites\experiment2-font-saturation
+.\push-now.ps1
+
+或使用 Git 命令：
+git add .
+git commit -m "改用本地版本的 jsPsych"
+git push
+
+========================================
+完成！您的實驗現在應該可以正常運行了！
+========================================
+

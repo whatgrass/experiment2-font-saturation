@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>實驗二：字型飽和測驗</title>
     
-    <!-- jsPsych CSS（CDN 版本 - 直接可用，無需下載） -->
-    <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css"/>
+    <!-- jsPsych CSS（本地版本） -->
+    <link href="./jspsych/css/jspsych.css" rel="stylesheet" type="text/css"/>
     
     <!-- 實驗專屬 CSS -->
     <link href="./css/experiment2.css" rel="stylesheet" type="text/css"/>
@@ -26,12 +26,12 @@
     <!-- jsPsych 實驗容器 -->
     <div id="jspsych-experiment" style="display: none;"></div>
     
-    <!-- jsPsych 核心庫（CDN 版本） -->
-    <script src="https://unpkg.com/jspsych@7.3.3/dist/jspsych.js"></script>
+    <!-- jsPsych 核心庫（本地版本） -->
+    <script src="./jspsych/jspsych.js"></script>
     
-    <!-- jsPsych 外掛（CDN 版本 - 使用 jsdelivr，更穩定） -->
-    <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js"></script>
+    <!-- jsPsych 外掛（本地版本） -->
+    <script src="./jspsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="./jspsych/plugins/jspsych-html-button-response.js"></script>
     
     <!-- 實驗主程式 -->
     <script src="./script/experiment2.js"></script>
