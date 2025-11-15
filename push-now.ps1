@@ -24,7 +24,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "========================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "📎 您的 GitHub Pages URL：" -ForegroundColor Cyan
-    Write-Host "   https://wahtgrass.github.io/experiment2-font-saturation/" -ForegroundColor Yellow
+    Write-Host "   https://whatgrass.github.io/experiment2-font-saturation/" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "💡 記得到 GitHub 啟用 Pages：" -ForegroundColor Cyan
     Write-Host "   Settings → Pages → Source: main branch → Save" -ForegroundColor Yellow

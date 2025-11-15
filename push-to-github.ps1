@@ -2,7 +2,7 @@
 # 使用方法：在 PowerShell 中執行 .\push-to-github.ps1
 
 # ===== 請修改這裡 =====
-$GITHUB_USERNAME = "wahtgrass"  # GitHub 使用者名稱
+$GITHUB_USERNAME = "whatgrass"  # GitHub 使用者名稱
 $REPOSITORY_NAME = "experiment2-font-saturation"  # Repository 名稱（可以修改）
 # ======================
 
