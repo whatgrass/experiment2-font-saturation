@@ -213,5 +213,5 @@ var jsPsychHtmlButtonResponse = (function (jspsych) {
 
   return HtmlButtonResponsePlugin;
 
-})(jsPsychModule);
+})(jsPsych);
 //# sourceMappingURL=index.browser.js.map

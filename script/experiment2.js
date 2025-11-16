@@ -14,21 +14,44 @@
 let jsPsychInstance = null;
 let currentTrialStartTime = null;
 
-// 等待 DOM 載入完成和按鈕點擊
-document.addEventListener('DOMContentLoaded', function() {
+// 等待所有腳本載入完成
+window.addEventListener('load', function() {
     const startButton = document.getElementById('start-button');
     const startScreen = document.getElementById('start-screen');
     const loadingDiv = document.getElementById('loading');
-    const experimentDiv = document.getElementById('jspsych-experiment');
+    
+    if (!startButton) {
+        console.error('找不到開始按鈕');
+        return;
+    }
     
     startButton.addEventListener('click', function() {
         // 隱藏開始畫面，顯示載入中
-        startScreen.style.display = 'none';
-        loadingDiv.style.display = 'block';
+        if (startScreen) startScreen.style.display = 'none';
+        if (loadingDiv) loadingDiv.style.display = 'block';
         
         // 檢查 jsPsych 是否載入
-        if (typeof initJsPsych === 'undefined' || typeof jsPsychHtmlKeyboardResponse === 'undefined' || typeof jsPsychHtmlButtonResponse === 'undefined') {
-            loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 jsPsych 庫。請檢查網路連線，或稍後再試。</p><p style="color: #666; margin-top: 10px;">如果問題持續，請確認 CDN 連線正常。</p>';
+        if (typeof initJsPsych === 'undefined') {
+            if (loadingDiv) {
+                loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 jsPsych 核心庫。請檢查網路連線或重新整理頁面。</p>';
+            }
+            console.error('initJsPsych 未定義');
+            return;
+        }
+        
+        if (typeof jsPsychHtmlKeyboardResponse === 'undefined') {
+            if (loadingDiv) {
+                loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 html-keyboard-response 外掛。</p>';
+            }
+            console.error('jsPsychHtmlKeyboardResponse 未定義');
+            return;
+        }
+        
+        if (typeof jsPsychHtmlButtonResponse === 'undefined') {
+            if (loadingDiv) {
+                loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 html-button-response 外掛。</p>';
+            }
+            console.error('jsPsychHtmlButtonResponse 未定義');
             return;
         }
         
@@ -96,7 +119,7 @@ function createTimeline() {
             </div>
         `,
         choices: ['我知道了'],
-        button_html: '<button class="jspsych-btn">%choice%</button>'
+        button_html: '<button class="jspsych-btn" type="button">%choice%</button>'
     });
     
     // 3. 正式實驗 - 10 trials

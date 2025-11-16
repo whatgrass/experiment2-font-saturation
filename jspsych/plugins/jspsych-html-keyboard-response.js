@@ -170,5 +170,5 @@ var jsPsychHtmlKeyboardResponse = (function (jspsych) {
 
   return HtmlKeyboardResponsePlugin;
 
-})(jsPsychModule);
+})(jsPsych);
 //# sourceMappingURL=index.browser.js.map

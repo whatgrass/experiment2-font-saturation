@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>實驗二：字型飽和測驗</title>
     
-    <!-- jsPsych CSS -->
+    <!-- jsPsych CSS (使用 CDN，相對路徑在 GitHub Pages 會有問題) -->
     <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css"/>
     
     <!-- 實驗專屬 CSS -->
@@ -16,7 +16,7 @@
     <div id="start-screen" style="text-align: center; padding: 100px 20px;">
         <h1>實驗二：字型飽和測驗</h1>
         <p style="font-size: 18px; margin: 30px 0;">請準備好後，點擊下方按鈕開始實驗</p>
-        <button id="start-button" class="start-btn">開始實驗</button>
+        <button id="start-button" class="start-btn" type="button">開始實驗</button>
         <div id="loading" style="display: none; margin-top: 30px;">
             <p>正在載入實驗...</p>
             <div class="spinner"></div>
@@ -26,11 +26,11 @@
     <!-- jsPsych 實驗容器 -->
     <div id="jspsych-experiment" style="display: none;"></div>
     
-    <!-- 使用動態載入，避免 CORB 問題 -->
+    <!-- 使用動態載入確保正確的載入順序 -->
     <script>
         (function() {
             // 載入腳本的函數
-            function loadScript(src, callback, errorCallback) {
+            function loadScript(src, callback) {
                 var script = document.createElement('script');
                 script.src = src;
                 script.async = false;
@@ -39,54 +39,72 @@
                 };
                 script.onerror = function() {
                     console.error('載入失敗: ' + src);
-                    if (errorCallback) errorCallback(src);
+                    var loadingDiv = document.getElementById('loading');
+                    if (loadingDiv) {
+                        loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 ' + src + '</p>';
+                    }
                 };
                 document.head.appendChild(script);
             }
             
-            // 依序載入所有資源
-            var loadingDiv = document.getElementById('loading');
+            // 確保 jsPsych 物件可用的函數
+            function ensureJsPsychForPlugins() {
+                // 如果 jsPsych 已經存在，直接返回
+                if (typeof jsPsych !== 'undefined') {
+                    return true;
+                }
+                
+                // 如果 initJsPsych 存在，創建 jsPsych 結構供外掛使用
+                if (typeof initJsPsych !== 'undefined') {
+                    window.jsPsych = window.jsPsych || {
+                        ParameterType: {
+                            HTML_STRING: 'html-string',
+                            STRING: 'string',
+                            INT: 'int',
+                            FLOAT: 'float',
+                            BOOL: 'bool',
+                            FUNCTION: 'function',
+                            KEY: 'key',
+                            KEYS: 'keys',
+                            SELECT: 'select',
+                            TEXT: 'text',
+                            COMPLEX: 'complex',
+                            COLOR: 'color'
+                        }
+                    };
+                    console.log('✓ jsPsych 結構已創建供外掛使用');
+                    return true;
+                }
+                
+                return false;
+            }
             
-            // 1. 載入 jsPsych 核心
+            // 步驟 1: 載入 jsPsych 核心
             loadScript('https://unpkg.com/jspsych@7.3.3/dist/jspsych.js', function() {
                 console.log('✓ jsPsych 核心已載入');
                 
-                // 2. 載入 html-keyboard-response 外掛
-                loadScript('https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js', function() {
-                    console.log('✓ html-keyboard-response 外掛已載入');
-                    
-                    // 3. 載入 html-button-response 外掛
-                    loadScript('https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js', function() {
-                        console.log('✓ html-button-response 外掛已載入');
+                // 確保 jsPsych 物件可用（外掛需要）
+                ensureJsPsychForPlugins();
+                
+                // 等待一下確保 jsPsych 結構已設置
+                setTimeout(function() {
+                    // 步驟 2: 載入 html-keyboard-response 外掛
+                    loadScript('https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js', function() {
+                        console.log('✓ html-keyboard-response 外掛已載入');
                         
-                        // 4. 載入實驗程式
-                        loadScript('./script/experiment2.js', function() {
-                            console.log('✓ 實驗程式已載入');
-                        }, function(src) {
-                            if (loadingDiv) {
-                                loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入實驗程式</p>';
-                            }
+                        // 步驟 3: 載入 html-button-response 外掛
+                        loadScript('https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js', function() {
+                            console.log('✓ html-button-response 外掛已載入');
+                            
+                            // 步驟 4: 載入實驗程式
+                            loadScript('./script/experiment2.js', function() {
+                                console.log('✓ 實驗程式已載入');
+                            });
                         });
-                    }, function(src) {
-                        console.error('無法載入 html-button-response 外掛');
-                        if (loadingDiv) {
-                            loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入外掛</p>';
-                        }
                     });
-                }, function(src) {
-                    console.error('無法載入 html-keyboard-response 外掛');
-                    if (loadingDiv) {
-                        loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入外掛</p>';
-                    }
-                });
-            }, function(src) {
-                console.error('無法載入 jsPsych 核心庫');
-                if (loadingDiv) {
-                    loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 jsPsych 核心庫，請檢查網路連線</p>';
-                }
+                }, 200);
             });
         })();
     </script>
 </body>
 </html>
-
