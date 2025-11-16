@@ -1,0 +1,41 @@
+========================================
+⚠️  重要：需要手動下載 jspsych.js
+========================================
+
+自動下載失敗了，請手動下載這個檔案：
+
+步驟 1：下載 jspsych.js
+------------------------
+1. 開啟瀏覽器，訪問以下網址：
+   https://unpkg.com/jspsych@7/dist/jspsych.js
+
+2. 等待頁面完全載入（可能需要幾秒鐘）
+
+3. 按 Ctrl+S 或右鍵 → 另存為
+
+4. 保存到：
+   C:\Users\Lucas\Favorites\experiment2-font-saturation\jspsych\jspsych.js
+
+5. 確認檔案大小應該約為 250-300 KB（不是 0.04 KB）
+
+步驟 2：驗證檔案
+----------------
+下載完成後，確認以下 4 個檔案都存在：
+
+✓ jspsych/jspsych.js              （約 250-300 KB）
+✓ jspsych/css/jspsych.css          （約 464 KB）
+✓ jspsych/plugins/jspsych-html-keyboard-response.js  （約 6.61 KB）
+✓ jspsych/plugins/jspsych-html-button-response.js    （約 9.04 KB）
+
+步驟 3：推送到 GitHub
+---------------------
+下載完成後，執行：
+
+cd C:\Users\Lucas\Favorites\experiment2-font-saturation
+.\push-now.ps1
+
+========================================
+其他 3 個檔案已經下載完成並提交了！
+只需要下載 jspsych.js 即可！
+========================================
+

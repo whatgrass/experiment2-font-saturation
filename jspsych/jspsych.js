@@ -1,1 +1,1 @@
-Not found: /jspsych@7.3.4/dist/jspsych.js
+Not found: /jspsych@7.1.0/dist/jspsych.js
