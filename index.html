@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>實驗二：字型飽和測驗</title>
     
-    <!-- jsPsych CSS（使用 jsdelivr CDN） -->
-    <link href="https://cdn.jsdelivr.net/npm/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css"/>
+    <!-- jsPsych CSS -->
+    <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css"/>
     
     <!-- 實驗專屬 CSS -->
     <link href="./css/experiment2.css" rel="stylesheet" type="text/css"/>
@@ -26,66 +26,65 @@
     <!-- jsPsych 實驗容器 -->
     <div id="jspsych-experiment" style="display: none;"></div>
     
-    <!-- jsPsych 核心庫（使用 jsdelivr CDN） -->
-    <script src="https://cdn.jsdelivr.net/npm/jspsych@7.3.3/dist/jspsych.js"></script>
-    
-    <!-- 等待 jsPsych 載入完成後再載入外掛 -->
+    <!-- 使用動態載入，避免 CORB 問題 -->
     <script>
-        // 確保 jsPsych 載入完成後再載入外掛
         (function() {
-            function loadPlugin(src, callback) {
+            // 載入腳本的函數
+            function loadScript(src, callback, errorCallback) {
                 var script = document.createElement('script');
                 script.src = src;
-                script.onload = callback;
-                script.onerror = function() {
-                    console.error('無法載入外掛: ' + src);
-                    document.getElementById('loading').innerHTML = 
-                        '<p style="color: red;">錯誤：無法載入外掛 ' + src + '</p>';
+                script.async = false;
+                script.onload = function() {
+                    if (callback) callback();
                 };
-                document.body.appendChild(script);
+                script.onerror = function() {
+                    console.error('載入失敗: ' + src);
+                    if (errorCallback) errorCallback(src);
+                };
+                document.head.appendChild(script);
             }
             
-            // 等待 jsPsych 載入
-            var checkCount = 0;
-            var maxChecks = 50; // 最多檢查 5 秒
+            // 依序載入所有資源
+            var loadingDiv = document.getElementById('loading');
             
-            function checkJsPsych() {
-                checkCount++;
-                if (typeof initJsPsych !== 'undefined') {
-                    console.log('jsPsych 已載入，開始載入外掛...');
-                    // jsPsych 已載入，現在載入外掛
-                    loadPlugin('https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js', function() {
-                        console.log('html-keyboard-response 外掛已載入');
-                        loadPlugin('https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js', function() {
-                            console.log('html-button-response 外掛已載入');
-                            console.log('所有外掛載入完成，載入實驗程式...');
-                            // 所有外掛載入完成，載入實驗程式
-                            var expScript = document.createElement('script');
-                            expScript.src = './script/experiment2.js';
-                            expScript.onerror = function() {
-                                console.error('無法載入實驗程式');
-                                document.getElementById('loading').innerHTML = 
-                                    '<p style="color: red;">錯誤：無法載入實驗程式</p>';
-                            };
-                            document.body.appendChild(expScript);
+            // 1. 載入 jsPsych 核心
+            loadScript('https://unpkg.com/jspsych@7.3.3/dist/jspsych.js', function() {
+                console.log('✓ jsPsych 核心已載入');
+                
+                // 2. 載入 html-keyboard-response 外掛
+                loadScript('https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.1/dist/index.browser.js', function() {
+                    console.log('✓ html-keyboard-response 外掛已載入');
+                    
+                    // 3. 載入 html-button-response 外掛
+                    loadScript('https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1/dist/index.browser.js', function() {
+                        console.log('✓ html-button-response 外掛已載入');
+                        
+                        // 4. 載入實驗程式
+                        loadScript('./script/experiment2.js', function() {
+                            console.log('✓ 實驗程式已載入');
+                        }, function(src) {
+                            if (loadingDiv) {
+                                loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入實驗程式</p>';
+                            }
                         });
+                    }, function(src) {
+                        console.error('無法載入 html-button-response 外掛');
+                        if (loadingDiv) {
+                            loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入外掛</p>';
+                        }
                     });
-                } else if (checkCount < maxChecks) {
-                    // 等待一下再檢查
-                    setTimeout(checkJsPsych, 100);
-                } else {
-                    console.error('jsPsych 載入超時');
-                    document.getElementById('loading').innerHTML = 
-                        '<p style="color: red;">錯誤：jsPsych 載入超時，請檢查網路連線</p>';
+                }, function(src) {
+                    console.error('無法載入 html-keyboard-response 外掛');
+                    if (loadingDiv) {
+                        loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入外掛</p>';
+                    }
+                });
+            }, function(src) {
+                console.error('無法載入 jsPsych 核心庫');
+                if (loadingDiv) {
+                    loadingDiv.innerHTML = '<p style="color: red;">錯誤：無法載入 jsPsych 核心庫，請檢查網路連線</p>';
                 }
-            }
-            
-            // 開始檢查
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', checkJsPsych);
-            } else {
-                checkJsPsych();
-            }
+            });
         })();
     </script>
 </body>
