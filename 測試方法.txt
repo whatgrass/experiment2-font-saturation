@@ -1,0 +1,50 @@
+========================================
+簡單測試方法
+========================================
+
+既然本地伺服器有問題，我們有兩個選擇：
+
+方法 1：推送到 GitHub Pages（推薦）
+====================================
+1. 執行推送命令：
+   cd C:\Users\Lucas\Favorites\experiment2-font-saturation
+   .\push-now.ps1
+
+2. 等待推送完成
+
+3. 訪問 GitHub Pages：
+   https://whatgrass.github.io/experiment2-font-saturation/
+
+4. 在 GitHub Pages 上測試（不會有 CORS 問題）
+
+方法 2：使用 Chrome 的 --disable-web-security（僅測試用）
+================================================================
+1. 關閉所有 Chrome 視窗
+
+2. 開啟 PowerShell，執行：
+   & "C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="C:\temp\chrome_dev" --disable-site-isolation-trials
+
+3. 在開啟的 Chrome 視窗中，直接開啟 index.html
+
+⚠️ 注意：這個方法僅用於測試，測試完後請關閉這個 Chrome 視窗
+
+方法 3：使用 Firefox 瀏覽器
+============================
+Firefox 對本地檔案的限制較少：
+
+1. 安裝 Firefox（如果還沒安裝）
+
+2. 直接雙擊 index.html 檔案
+
+3. 如果還有問題，在 Firefox 中：
+   - 在網址列輸入：about:config
+   - 搜尋：security.fileuri.strict_origin_policy
+   - 設為：false
+   - 重新載入頁面
+
+========================================
+最簡單的方法：推送到 GitHub Pages
+========================================
+
+GitHub Pages 不會有 CORS 問題，是最可靠的測試方法！
+
